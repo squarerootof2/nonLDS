@@ -14,7 +14,7 @@ function drawPoint(ctx, px, py, radius)
     ctx.beginPath();
     ctx.arc((px), py, radius, 0, 2 * Math.PI, false);
     ctx.fill();
-    ctx.lineWidth = 0.02;
+    ctx.lineWidth = 0.8;
     ctx.strokeStyle = "black";
     ctx.stroke();
 }
