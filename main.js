@@ -12,11 +12,12 @@ As well as all the functions used in main()
 function drawPoint(ctx, px, py, radius)
 {
     ctx.beginPath();
-    ctx.arc((px), py, radius, 0, 2 * Math.PI, false);
+    ctx.arc(px, py, radius, 0, 2 * Math.PI, false);
     ctx.fill();
-    ctx.lineWidth = 0.8;
+    ctx.lineWidth = 0.5;
     ctx.strokeStyle = "black";
-    ctx.stroke();
+    ctx.closePath();
+    //ctx.stroke();
 }
 
 
@@ -37,11 +38,12 @@ function runSystem(ctx, state, r1, r2, skip, numberOfPoints, slices, dx, radius,
 		}
 
 		//now take s and plot numOfPnts points
-		for (var i = 1; i < numberOfPoints; i++)
+		for (var j = 1; j < numberOfPoints; j++)
 		{
 			s = r * (1 - s) * s; // quadratic map
 			drawPoint(ctx, (slice*dx + border), (ctxHeight - border - (s*scale)), radius);
 		}
+        ctx.stroke();
 	}
 }
 
@@ -125,6 +127,20 @@ function main()
 			drawAxes(ctx, ctxWidth, ctxHeight, border);
 			drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, graphHeight);
 			runSystem(ctx, state, r1, r2, skip, numberOfPoints, slices, dx, radius, ctxHeight, border, graphHeight);
+            
+            drawLabel("graphWidth: "+graphWidth, 50, 20, ctx);
+            drawLabel("graphHeight: "+graphHeight, 50, 40, ctx);
+            drawLabel("points to plot: "+numberOfPoints, 50, 60, ctx);
+            drawLabel("number of slices: "+slices, 50, 80, ctx);
+            drawLabel(": "+skip, 50, 100, ctx);
+            
+            
+            // save canvas image as data url (png format by default)
+            var dataURL = canvas.toDataURL();
+
+            // set canvasImg image src to dataURL
+            // so it can be saved as an image
+            document.getElementById('canvasImg').src = dataURL;
         }
 		else
 		{
