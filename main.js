@@ -14,7 +14,7 @@ function drawPoint(ctx, px, py, radius)
     ctx.beginPath();
     ctx.arc(px, py, radius, 0, 2 * Math.PI, false);
     ctx.fill();
-    ctx.lineWidth = 0.5;
+    ctx.lineWidth = 0.22;
     ctx.strokeStyle = "black";
     ctx.closePath();
     //ctx.stroke();
@@ -62,7 +62,7 @@ function drawLine(px1, py1, px2, py2, ctx)
 
 function drawAxes(ctx, ctxWidth, ctxHeight, border)
 {
-    drawLine(border, border, border, (ctxHeight - border), ctx); // vertical axis
+    drawLine(border, 0, border, (ctxHeight - border), ctx); // vertical axis
     drawLine(border, (ctxHeight - border), (ctxWidth - border), (ctxHeight - border), ctx); // horizontal axis
 }
 
@@ -128,12 +128,16 @@ function main()
 			drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, graphHeight);
 			runSystem(ctx, state, r1, r2, skip, numberOfPoints, slices, dx, radius, ctxHeight, border, graphHeight);
             
-            drawLabel("graphWidth: "+graphWidth, 50, 20, ctx);
-            drawLabel("graphHeight: "+graphHeight, 50, 40, ctx);
-            drawLabel("points to plot: "+numberOfPoints, 50, 60, ctx);
-            drawLabel("number of slices: "+slices, 50, 80, ctx);
-            drawLabel(": "+skip, 50, 100, ctx);
-            
+            drawLabel("number of slices: "+slices, 50, 15, ctx);
+            drawLabel("points to plot: "+numberOfPoints, 50, 34, ctx);
+            drawLabel("points to skip: "+skip, 50, 53, ctx);
+            drawLabel("graphWidth: "+graphWidth, 50, 72, ctx);
+            drawLabel("graphHeight: "+graphHeight, 50, 91, ctx);
+            drawLabel("lineWidth: "+ctx.lineWidth, 50, 109, ctx);
+            drawLabel("radius: "+radius, 50, 128, ctx);
+            drawLabel("border: "+border, 50, 147, ctx);
+            drawLabel("r1: "+r1, 50, 166, ctx);
+            drawLabel("r2: "+r2, 50, 185, ctx);
             
             // save canvas image as data url (png format by default)
             var dataURL = canvas.toDataURL();
