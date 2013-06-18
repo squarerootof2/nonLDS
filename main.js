@@ -14,7 +14,7 @@ function drawPoint(ctx, px, py, radius)
     ctx.beginPath();
     ctx.arc(px, py, radius, 0, 2 * Math.PI, false);
     ctx.fill();
-    ctx.lineWidth = 0.22;
+    ctx.lineWidth = 0.5;
     ctx.strokeStyle = "black";
     ctx.closePath();
     //ctx.stroke();
@@ -126,18 +126,30 @@ function main()
 			ctx.clearRect(0, 0, ctxWidth, ctxHeight);
 			drawAxes(ctx, ctxWidth, ctxHeight, border);
 			drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, graphHeight);
+            
+            var start = new Date();
+            
 			runSystem(ctx, state, r1, r2, skip, numberOfPoints, slices, dx, radius, ctxHeight, border, graphHeight);
             
+            var finish = new Date();
+            var difference = new Date();
+            difference.setTime(finish.getTime() - start.getTime());
+            var timeLapse = difference.getSeconds();
+            
             drawLabel("number of slices: "+slices, 50, 15, ctx);
-            drawLabel("points to plot: "+numberOfPoints, 50, 34, ctx);
-            drawLabel("points to skip: "+skip, 50, 53, ctx);
-            drawLabel("graphWidth: "+graphWidth, 50, 72, ctx);
-            drawLabel("graphHeight: "+graphHeight, 50, 91, ctx);
-            drawLabel("lineWidth: "+ctx.lineWidth, 50, 109, ctx);
-            drawLabel("radius: "+radius, 50, 128, ctx);
-            drawLabel("border: "+border, 50, 147, ctx);
-            drawLabel("r1: "+r1, 50, 166, ctx);
-            drawLabel("r2: "+r2, 50, 185, ctx);
+            drawLabel("points to plot: "+numberOfPoints, 50, 35, ctx);
+            drawLabel("points to skip: "+skip, 50, 55, ctx);
+            drawLabel("graphWidth: "+graphWidth, 50, 75, ctx);
+            drawLabel("graphHeight: "+graphHeight, 50, 95, ctx);
+            drawLabel("ctxWidth: "+ctxWidth, 50, 115, ctx);
+            drawLabel("ctxHeitht: "+ctxHeight, 50, 135, ctx);
+            
+            drawLabel("lineWidth: "+ctx.lineWidth, 222, 15, ctx);
+            drawLabel("radius: "+radius, 222, 35, ctx);
+            drawLabel("border: "+border, 222, 55, ctx);
+            drawLabel("R1: "+r1, 222, 75, ctx);
+            drawLabel("R2: "+r2, 222, 95, ctx);
+            drawLabel("time: "+timeLapse+" sec", 222, 115, ctx);
             
             // save canvas image as data url (png format by default)
             var dataURL = canvas.toDataURL();
