@@ -62,7 +62,7 @@ function drawLine(px1, py1, px2, py2, ctx)
 
 function drawAxes(ctx, ctxWidth, ctxHeight, border)
 {
-    drawLine(border, 0, border, (ctxHeight - border), ctx); // vertical axis
+    drawLine(border, border, border, (ctxHeight - border), ctx); // vertical axis
     drawLine(border, (ctxHeight - border), (ctxWidth - border), (ctxHeight - border), ctx); // horizontal axis
 }
 
@@ -124,6 +124,9 @@ function main()
 		if (r1 < r2)
 		{
 			ctx.clearRect(0, 0, ctxWidth, ctxHeight);
+            ctx.fillStyle = "rgb(255, 255, 255)";
+            ctx.fillRect(0, 0, ctxWidth, ctxHeight);
+
 			drawAxes(ctx, ctxWidth, ctxHeight, border);
 			drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, graphHeight);
             
@@ -154,9 +157,11 @@ function main()
             // save canvas image as data url (png format by default)
             var dataURL = canvas.toDataURL();
 
+            window.open(dataURL);
+            
             // set canvasImg image src to dataURL
             // so it can be saved as an image
-            document.getElementById('canvasImg').src = dataURL;
+            //document.getElementById('canvasImg').src = dataURL;
         }
 		else
 		{
