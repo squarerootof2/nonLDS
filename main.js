@@ -9,25 +9,17 @@ As well as all the functions used in main()
 
 "use strict";
 
-function drawPoint(ctx, px, py, radius)
-{
-    ctx.beginPath();
-    ctx.arc(px, py, radius, 0, 2 * Math.PI, false);
-    ctx.fill();
-    ctx.lineWidth = 0.5;
-    ctx.strokeStyle = "black";
-    ctx.closePath();
-    //ctx.stroke();
-}
-
 
 // Main part of program
 function runSystem(ctx, state, r1, r2, skip, numberOfPoints, slices, dx, radius, ctxHeight, border, scale)
 {
     var s;
 	var slice;
+    var sx;
 	var r;
+    var ctxHtMinusBorder = ctxHeight - border;
 	var dr = (r2 -r1) / slices;
+
 	for (r = r1, slice = 1; r < r2 && slice < slices; r += dr, slice++)
 	{
 		//don't plot the first skip points
@@ -37,12 +29,19 @@ function runSystem(ctx, state, r1, r2, skip, numberOfPoints, slices, dx, radius,
 			s = r * (1 - s) * s; // quadratic map
 		}
 
+        sx = slice*dx + border;
+        
 		//now take s and plot numOfPnts points
 		for (var j = 1; j < numberOfPoints; j++)
 		{
 			s = r * (1 - s) * s; // quadratic map
-			drawPoint(ctx, (slice*dx + border), (ctxHeight - border - (s*scale)), radius);
+            
+            ctx.beginPath();
+            ctx.arc(sx, (ctxHtMinusBorder - s*scale), radius, 0, 2 * Math.PI, false);
+            ctx.fill();
 		}
+        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = "black";
         ctx.stroke();
 	}
 }
@@ -55,7 +54,6 @@ function drawLine(px1, py1, px2, py2, ctx)
 	ctx.beginPath();
 	ctx.moveTo(px1, py1);
 	ctx.lineTo(px2, py2);
-	ctx.closePath();
 	ctx.stroke();
 }
 
@@ -113,7 +111,7 @@ function main()
         var skip = document.getElementById('skip').value - 0;
         
         var radius = document.getElementById('radius').value - 0;
-        var border = 40; // number of pixels around the graph.
+        var border = 40; // number of pixels around the graph. TODO change how the border is used so that it does not go all the way around.
 
         var graphWidth = ctxWidth - (2 * border); // make room for axes and labels.
         var graphHeight = ctxHeight - (2 * border);
@@ -137,22 +135,27 @@ function main()
             var finish = new Date();
             var difference = new Date();
             difference.setTime(finish.getTime() - start.getTime());
-            var timeLapse = difference.getSeconds();
+            var mins = difference.getMinutes();
+            var secs = difference.getSeconds();
+            var millies = difference.getMilliseconds();
             
-            drawLabel("number of slices: "+slices, 50, 15, ctx);
+            drawLabel("points to skip: "+skip,           50, 15, ctx);
             drawLabel("points to plot: "+numberOfPoints, 50, 35, ctx);
-            drawLabel("points to skip: "+skip, 50, 55, ctx);
-            drawLabel("graphWidth: "+graphWidth, 50, 75, ctx);
-            drawLabel("graphHeight: "+graphHeight, 50, 95, ctx);
-            drawLabel("ctxWidth: "+ctxWidth, 50, 115, ctx);
-            drawLabel("ctxHeitht: "+ctxHeight, 50, 135, ctx);
+            drawLabel("number of slices: "+slices,       50, 55, ctx);
+            drawLabel("graphWidth: "+graphWidth,         50, 75, ctx);
+            drawLabel("graphHeight: "+graphHeight,       50, 95, ctx);
             
-            drawLabel("lineWidth: "+ctx.lineWidth, 222, 15, ctx);
-            drawLabel("radius: "+radius, 222, 35, ctx);
-            drawLabel("border: "+border, 222, 55, ctx);
-            drawLabel("R1: "+r1, 222, 75, ctx);
-            drawLabel("R2: "+r2, 222, 95, ctx);
-            drawLabel("time: "+timeLapse+" sec", 222, 115, ctx);
+            
+            drawLabel("ctxWidth: "+ctxWidth,       225, 15, ctx);
+            drawLabel("ctxHeitht: "+ctxHeight,     225, 35, ctx);
+            drawLabel("border: "+border,           225, 55, ctx);
+            drawLabel("lineWidth: "+ctx.lineWidth, 225, 75, ctx);
+            
+            drawLabel("time: "+mins+" min,  "+secs+"."+millies+" sec", 400, 15, ctx);
+            drawLabel("radius: "+radius, 400, 35, ctx);
+            drawLabel("R1: "+r1,         400, 55, ctx);
+            drawLabel("R2: "+r2,         400, 75, ctx);
+            
             
             // save canvas image as data url (png format by default)
             var dataURL = canvas.toDataURL();
