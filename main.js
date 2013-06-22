@@ -80,31 +80,38 @@ function drawLabel(label, px, py, ctx)
 function drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, scale)
 {
     var bot = ctxHeight - border;
-    var y2;
+    var leftSide = border - 35;
+    var y1 = bot - 2;
+    var y2 = bot + 3;
     var x1 = border - 2;
     var x2 = border + 3;
     
-    drawLabel("0.0", (border-35), (bot), ctx);
+    drawLabel("0.0", leftSide, bot, ctx);
+    drawLine(x1, bot, x2, bot, ctx);
     
-	drawLabel("0.25", (border-35), (bot-scale*0.25), ctx);
+	drawLabel("0.25", leftSide, (bot-scale*0.25), ctx);
     drawLine(x1, (bot-scale*0.25), x2, (bot-scale*0.25), ctx);
     
-	drawLabel("0.5", (border-35), (bot-scale*0.5), ctx);
+	drawLabel("0.5", leftSide, (bot-scale*0.5), ctx);
     drawLine(x1, (bot-scale*0.5), x2, (bot-scale*0.5), ctx);
     
-	drawLabel("0.75", (border-35), (bot-scale*0.75), ctx);
+	drawLabel("0.75", leftSide, (bot-scale*0.75), ctx);
+    drawLine(x1, (bot-scale*0.75), x2, (bot-scale*0.75), ctx);
     
-    
-	drawLabel("1.0", (border-35), (bot-scale), ctx);
-    
+	drawLabel("1.0", leftSide, (bot-scale), ctx);
+    drawLine(x1, (bot-scale), x2, (bot-scale), ctx);
     
 	drawLabel(r1, border, (ctxHeight-10), ctx);
+    drawLine(border, y1, border, y2, ctx);
     
 	drawLabel(r2, ctxWidth-border, (ctxHeight-10), ctx);
+    //drawLine((ctxWidth-border), y1, (ctxWidth-border), y2, ctx);
     
 	drawLabel((r2-r1)*0.25 + r1, ctxWidth*0.25, ctxHeight-10, ctx);
     
+    
 	drawLabel((r1+r2)*0.5, ctxWidth*0.5, ctxHeight-10, ctx);
+    
     
 	drawLabel((r2-r1)*0.75 + r1, ctxWidth*0.75, ctxHeight-10, ctx);
     
