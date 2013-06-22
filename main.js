@@ -5,6 +5,9 @@ contributers: Austin Packer
 main() goes here at the bottom of the file.
 As well as all the functions used in main()
 
+TODO
+add tick marks on axes
+
 */
 
 "use strict";
@@ -76,16 +79,35 @@ function drawLabel(label, px, py, ctx)
 
 function drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, scale)
 {
-    drawLabel("0.0", (border-35), (ctxHeight-border), ctx);
-	drawLabel("0.25", (border-35), (ctxHeight-border-scale*0.25), ctx);
-	drawLabel("0.5", (border-35), (ctxHeight-border-scale*0.5), ctx);
-	drawLabel("0.75", (border-35), (ctxHeight-border-scale*0.75), ctx);
-	drawLabel("1.0", (border-35), (ctxHeight-border-scale), ctx);
+    var bot = ctxHeight - border;
+    var y2;
+    var x1 = border - 2;
+    var x2 = border + 3;
+    
+    drawLabel("0.0", (border-35), (bot), ctx);
+    
+	drawLabel("0.25", (border-35), (bot-scale*0.25), ctx);
+    drawLine(x1, (bot-scale*0.25), x2, (bot-scale*0.25), ctx);
+    
+	drawLabel("0.5", (border-35), (bot-scale*0.5), ctx);
+    drawLine(x1, (bot-scale*0.5), x2, (bot-scale*0.5), ctx);
+    
+	drawLabel("0.75", (border-35), (bot-scale*0.75), ctx);
+    
+    
+	drawLabel("1.0", (border-35), (bot-scale), ctx);
+    
+    
 	drawLabel(r1, border, (ctxHeight-10), ctx);
+    
 	drawLabel(r2, ctxWidth-border, (ctxHeight-10), ctx);
+    
 	drawLabel((r2-r1)*0.25 + r1, ctxWidth*0.25, ctxHeight-10, ctx);
+    
 	drawLabel((r1+r2)*0.5, ctxWidth*0.5, ctxHeight-10, ctx);
+    
 	drawLabel((r2-r1)*0.75 + r1, ctxWidth*0.75, ctxHeight-10, ctx);
+    
 }
 
 
@@ -111,7 +133,7 @@ function main()
         var skip = document.getElementById('skip').value - 0;
         
         var radius = document.getElementById('radius').value - 0;
-        var border = 40; // number of pixels around the graph. TODO change how the border is used so that it does not go all the way around.
+        var border = 40.5; // number of pixels around the graph. TODO change how the border is used so that it does not go all the way around.
 
         var graphWidth = ctxWidth - (2 * border); // make room for axes and labels.
         var graphHeight = ctxHeight - (2 * border);

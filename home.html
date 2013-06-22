@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Language" content="English" />
         <meta charset="UTF-8">
-        <meta name="keywords" content="Non, Linear, Dynamical, Systems, HTML5, JavaScript" />
+        <meta name="keywords" content="Non, Linear, Dynamical, Systems, Bifurcation, Logistic Map, HTML5, JavaScript" />
         <script type="text/javascript" src="main.js"></script>
 	    <link rel="stylesheet" type="text/css" href="style.css" media="screen">
 	    <title>Non Linear Dynamical Systems</title>
@@ -11,7 +11,7 @@
 
 <body>
 	
-	<table id="wrapper" border="0" width="1600">
+	<table id="wrapper" border="0" width="1530">
 	
 		<tr id="top">
 			<td colspan="3" id="header">
@@ -47,28 +47,28 @@
                     <br />
                     <p>
                         points to skip = 
-                        <input type="text" id="skip" size="2" min="0" maxlength="4" step="1" value="1111" />
+                        <input type="text" id="skip" size="2" min="0" maxlength="4" step="1" value="2000" />
                     </p>
                     <br />
 					<p>
                         points to plot =
-						<input type="text" id="iterations" size="1" min="1" maxlength="3" step="1" value="222" />
+						<input type="text" id="iterations" size="1" min="1" maxlength="3" step="1" value="100" />
 					</p> 
 					<br />
 					<p>
 						Number of Slices = 
-						<input type="text" id="slices" size="2" min="2" maxlength="4" step="1" value="3333" />
+						<input type="text" id="slices" size="2" min="2" maxlength="4" step="1" value="2000" />
 					</p>
                     <br />
                     <p>
                         Points' radius
-                        <input type="text" id="radius" size="2" maxlength="5" value="0.2" />
+                        <input type="text" id="radius" size="2" maxlength="7" value="0.4" />
                     </p>
 				</form>
 			</td><!--end size-->
 		
-			<td id="paper" width="1600">
-				<canvas id="myCanvas" width="1600" height="900">
+			<td id="paper" width="1280">
+				<canvas id="myCanvas" width="1280" height="720">
 					<p>please use chrome</p>
 				</canvas>
                 <img id="canvasImg" alt="Right click to save me!">
