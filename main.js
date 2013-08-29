@@ -20,7 +20,7 @@ function runSystem(ctx, state, r1, r2, skip, numberOfPoints, slices, dx, radius,
 	var slice;
     var sx;
 	var r;
-    var ctxHtMinusBorder = ctxHeight - border;
+    var ctxHtMinusBorder = ctxHeight - border+0.5;
 	var dr = (r2 -r1) / slices;
 
 	for (r = r1, slice = 1; r < r2 && slice < slices; r += dr, slice++)
@@ -63,8 +63,8 @@ function drawLine(px1, py1, px2, py2, ctx)
 
 function drawAxes(ctx, ctxWidth, ctxHeight, border)
 {
-    drawLine(border, border, border, (ctxHeight - border), ctx); // vertical axis
-    drawLine(border, (ctxHeight - border), (ctxWidth - border), (ctxHeight - border), ctx); // horizontal axis
+    drawLine(border-0.5, border, border-0.5, (ctxHeight - border), ctx); // vertical axis
+    drawLine(border, (ctxHeight - border+0.5), (ctxWidth - border), (ctxHeight - border+0.5), ctx); // horizontal axis
 }
 
 
@@ -79,12 +79,12 @@ function drawLabel(label, px, py, ctx)
 
 function drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, scale)
 {
-    var bot = ctxHeight - border;
+    var bot = ctxHeight - border+0.5;
     var leftSide = border - 35;
-    var y1 = bot - 2;
-    var y2 = bot + 3;
+    var y1 = bot - 1;
+    var y2 = bot + 1;
     var x1 = border - 2;
-    var x2 = border + 3;
+    var x2 = border + 1;
     
     drawLabel("0.0", leftSide, bot, ctx);
     drawLine(x1, bot, x2, bot, ctx);
@@ -102,7 +102,7 @@ function drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, scale)
     drawLine(x1, (bot-scale), x2, (bot-scale), ctx);
     
 	drawLabel(r1, border, (ctxHeight-10), ctx);
-    drawLine(border, y1, border, y2, ctx);
+    drawLine(border-0.5, y1, border-0.5, y2, ctx);
     
 	drawLabel(r2, ctxWidth-border, (ctxHeight-10), ctx);
     //drawLine((ctxWidth-border), y1, (ctxWidth-border), y2, ctx);
@@ -140,7 +140,7 @@ function main()
         var skip = document.getElementById('skip').value - 0;
         
         var radius = document.getElementById('radius').value - 0;
-        var border = 40.5; // number of pixels around the graph. TODO change how the border is used so that it does not go all the way around.
+        var border = 40.0; // number of pixels around the graph. TODO change how the border is used so that it does not go all the way around.
 
         var graphWidth = ctxWidth - (2 * border); // make room for axes and labels.
         var graphHeight = ctxHeight - (2 * border);
@@ -150,6 +150,8 @@ function main()
 		// Draw stuff
 		if (r1 < r2)
 		{
+            var start = new Date();
+            
 			ctx.clearRect(0, 0, ctxWidth, ctxHeight);
             ctx.fillStyle = "rgb(255, 255, 255)";
             ctx.fillRect(0, 0, ctxWidth, ctxHeight);
@@ -157,17 +159,9 @@ function main()
 			drawAxes(ctx, ctxWidth, ctxHeight, border);
 			drawLabels(ctx, ctxWidth, ctxHeight, r1, r2, border, graphHeight);
             
-            var start = new Date();
-            
 			runSystem(ctx, state, r1, r2, skip, numberOfPoints, slices, dx, radius, ctxHeight, border, graphHeight);
             
-            var finish = new Date();
-            var difference = new Date();
-            difference.setTime(finish.getTime() - start.getTime());
-            var mins = difference.getMinutes();
-            var secs = difference.getSeconds();
-            var millies = difference.getMilliseconds();
-            
+            //
             drawLabel("points to skip: "+skip,           50, 15, ctx);
             drawLabel("points to plot: "+numberOfPoints, 50, 35, ctx);
             drawLabel("number of slices: "+slices,       50, 55, ctx);
@@ -180,20 +174,30 @@ function main()
             drawLabel("border: "+border,           225, 55, ctx);
             drawLabel("lineWidth: "+ctx.lineWidth, 225, 75, ctx);
             
+            var finish = new Date();
+            var difference = new Date();
+            difference.setTime(finish.getTime() - start.getTime());
+            var mins = difference.getMinutes();
+            var secs = difference.getSeconds();
+            var millies = difference.getMilliseconds();
+            
             drawLabel("time: "+mins+" min,  "+secs+"."+millies+" sec", 400, 15, ctx);
             drawLabel("radius: "+radius, 400, 35, ctx);
             drawLabel("R1: "+r1,         400, 55, ctx);
             drawLabel("R2: "+r2,         400, 75, ctx);
-            
+            //
             
             // save canvas image as data url (png format by default)
-            var dataURL = canvas.toDataURL();
+            //var dataURL = canvas.toDataURL();
 
-            window.open(dataURL);
+            //window.open(dataURL);
             
             // set canvasImg image src to dataURL
             // so it can be saved as an image
             //document.getElementById('canvasImg').src = dataURL;
+            
+            
+            
         }
 		else
 		{
